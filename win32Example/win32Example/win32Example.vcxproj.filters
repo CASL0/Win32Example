@@ -19,10 +19,30 @@
     <Filter Include="ヘッダー ファイル\wua">
       <UniqueIdentifier>{8603b433-4e68-4bf7-979a-227502d3e336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\getaddrinfo">
+      <UniqueIdentifier>{02e9ffa5-9e62-490d-b6ee-65b4f11b0b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\getaddrinfo">
+      <UniqueIdentifier>{548ba572-13de-4abb-9d6d-6d7b9438dddd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
       <Filter>ソース ファイル\wua</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="getaddrinfo.cpp">
+      <Filter>ソース ファイル\getaddrinfo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="wua.h">
+      <Filter>ヘッダー ファイル\wua</Filter>
+    </ClInclude>
+    <ClInclude Include="getaddrinfo.h">
+      <Filter>ヘッダー ファイル\getaddrinfo</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
