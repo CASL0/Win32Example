@@ -1,7 +1,7 @@
 #include <tchar.h>
-#include "getaddrinfo.h"
+#include "securityDescriptor.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
-	ResolveAddr("www.microsoft.com");
+	enumAce("C:\\Program Files");
 	return 0;
 }

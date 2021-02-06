@@ -25,6 +25,12 @@
     <Filter Include="ヘッダー ファイル\getaddrinfo">
       <UniqueIdentifier>{548ba572-13de-4abb-9d6d-6d7b9438dddd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\securityDescriptor">
+      <UniqueIdentifier>{07bad028-9374-471b-8413-6ef04eaa76f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\securityDescriptor">
+      <UniqueIdentifier>{669c3a4d-4953-4d55-bc67-2a9549d5180f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -36,6 +42,9 @@
     <ClCompile Include="getaddrinfo.cpp">
       <Filter>ソース ファイル\getaddrinfo</Filter>
     </ClCompile>
+    <ClCompile Include="enumAce.cpp">
+      <Filter>ソース ファイル\securityDescriptor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -43,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="getaddrinfo.h">
       <Filter>ヘッダー ファイル\getaddrinfo</Filter>
+    </ClInclude>
+    <ClInclude Include="securityDescriptor.h">
+      <Filter>ヘッダー ファイル\securityDescriptor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

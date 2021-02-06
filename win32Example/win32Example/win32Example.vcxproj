@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="enumAce.cpp" />
     <ClCompile Include="getaddrinfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="wua.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="getaddrinfo.h" />
+    <ClInclude Include="securityDescriptor.h" />
     <ClInclude Include="wua.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
