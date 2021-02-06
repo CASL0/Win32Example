@@ -13,5 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\wua">
+      <UniqueIdentifier>{02d6cba2-65a4-4a8a-a604-b806d0829813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\wua">
+      <UniqueIdentifier>{8603b433-4e68-4bf7-979a-227502d3e336}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="wua.cpp">
+      <Filter>ソース ファイル\wua</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
