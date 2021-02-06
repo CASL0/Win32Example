@@ -2,3 +2,4 @@
 #include <string>
 
 int enumAce(const std::string& sDirectoryPath);
+int SetAce();

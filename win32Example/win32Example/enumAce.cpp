@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <memory>
 #include <winerror.h>
 
 #pragma comment(lib, "Advapi32.lib")

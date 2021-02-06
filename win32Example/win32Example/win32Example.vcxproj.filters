@@ -45,6 +45,9 @@
     <ClCompile Include="enumAce.cpp">
       <Filter>ソース ファイル\securityDescriptor</Filter>
     </ClCompile>
+    <ClCompile Include="setAce.cpp">
+      <Filter>ソース ファイル\securityDescriptor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
