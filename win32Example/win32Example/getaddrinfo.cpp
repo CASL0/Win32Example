@@ -56,12 +56,25 @@ int ResolveAddr(const std::string& sFqdn)
         case AF_INET:
             std::cout << "AF_INET (IPv4)" << std::endl;
             sockaddrIpv4 = (SOCKADDR_IN*)ptr->ai_addr;
+
+            std::cout << "\tネットワークバイトオーダー 0x" << std::hex << static_cast<int>(sockaddrIpv4->sin_addr.S_un.S_addr) << std::endl;
+            std::cout << "\tホストオーダー 0x" << std::hex << static_cast<int>(ntohl(sockaddrIpv4->sin_addr.S_un.S_addr)) << std::endl;
             std::cout << "\tIPv4 address " << inet_ntoa(sockaddrIpv4->sin_addr) << std::endl;
             break;
         case AF_INET6:
         {
             std::cout << "AF_INET6 (IPv6)" << std::endl;
             sockaddrIpv6 = (SOCKADDR_IN6*)ptr->ai_addr;
+
+            //IPv6アドレスをバイト単位で保持している
+            //ネットワークバイトオーダー(ビッグエンディアン)
+            std::cout << "\tネットワークバイトオーダー 0x";
+            for (int i = 0; i < 16; i++)
+            {
+                std::cout << std::hex << static_cast<int>(sockaddrIpv6->sin6_addr.u.Byte[i]);
+            }
+            std::cout << std::endl;
+
             std::vector<CHAR> ipBuffer(50);
             std::cout << "\tIPv6 address " << inet_ntop(AF_INET6, &sockaddrIpv6->sin6_addr, ipBuffer.data(), 50) << std::endl;
         }
