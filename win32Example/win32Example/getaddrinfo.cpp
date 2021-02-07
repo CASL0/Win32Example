@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <iomanip>
+#include <array>
 
 #pragma comment(lib, "ws2_32.lib")
 #pragma warning(disable : 4996) //inet_ntoa, inet_ntop用
@@ -57,8 +59,8 @@ int ResolveAddr(const std::string& sFqdn)
             std::cout << "AF_INET (IPv4)" << std::endl;
             sockaddrIpv4 = (SOCKADDR_IN*)ptr->ai_addr;
 
-            std::cout << "\tネットワークバイトオーダー 0x" << std::hex << static_cast<int>(sockaddrIpv4->sin_addr.S_un.S_addr) << std::endl;
-            std::cout << "\tホストオーダー 0x" << std::hex << static_cast<int>(ntohl(sockaddrIpv4->sin_addr.S_un.S_addr)) << std::endl;
+            std::cout << "\tネットワークバイトオーダー 0x" << std::hex << std::setw(8) << std::setfill('0') << static_cast<int>(sockaddrIpv4->sin_addr.S_un.S_addr) << std::endl;
+            std::cout << "\tホストオーダー 0x" << std::hex << std::setw(8) << std::setfill('0') << static_cast<int>(ntohl(sockaddrIpv4->sin_addr.S_un.S_addr)) << std::endl;
             std::cout << "\tIPv4 address " << inet_ntoa(sockaddrIpv4->sin_addr) << std::endl;
             break;
         case AF_INET6:
@@ -66,12 +68,14 @@ int ResolveAddr(const std::string& sFqdn)
             std::cout << "AF_INET6 (IPv6)" << std::endl;
             sockaddrIpv6 = (SOCKADDR_IN6*)ptr->ai_addr;
 
+            std::vector<BYTE> tmp;
+            std::copy(sockaddrIpv6->sin6_addr.u.Byte, std::end(sockaddrIpv6->sin6_addr.u.Byte), std::back_inserter(tmp));
             //IPv6アドレスをバイト単位で保持している
             //ネットワークバイトオーダー(ビッグエンディアン)
             std::cout << "\tネットワークバイトオーダー 0x";
             for (int i = 0; i < 16; i++)
             {
-                std::cout << std::hex << static_cast<int>(sockaddrIpv6->sin6_addr.u.Byte[i]);
+                std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(tmp.at(i));
             }
             std::cout << std::endl;
 
