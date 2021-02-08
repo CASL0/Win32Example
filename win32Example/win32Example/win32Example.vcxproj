@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="enumAce.cpp" />
     <ClCompile Include="getaddrinfo.cpp" />
+    <ClCompile Include="getNetworkParams.cpp" />
     <ClCompile Include="getServiceSD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="setAce.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="getaddrinfo.h" />
+    <ClInclude Include="getNetworkParams.h" />
     <ClInclude Include="securityDescriptor.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="wua.h" />

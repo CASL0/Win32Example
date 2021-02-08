@@ -37,6 +37,12 @@
     <Filter Include="ヘッダー ファイル\service">
       <UniqueIdentifier>{c653ebc9-1214-489f-a45d-f64a50bec591}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\networkparams">
+      <UniqueIdentifier>{90fa272c-accc-4397-9c60-3d70e0d20087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\networkparams">
+      <UniqueIdentifier>{d6410ab4-baac-473f-a6df-43cea6c35af4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -57,6 +63,9 @@
     <ClCompile Include="getServiceSD.cpp">
       <Filter>ソース ファイル\service</Filter>
     </ClCompile>
+    <ClCompile Include="getNetworkParams.cpp">
+      <Filter>ソース ファイル\networkparams</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="service.h">
       <Filter>ヘッダー ファイル\service</Filter>
+    </ClInclude>
+    <ClInclude Include="getNetworkParams.h">
+      <Filter>ヘッダー ファイル\networkparams</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

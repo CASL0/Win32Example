@@ -1,7 +1,8 @@
 #include <tchar.h>
-#include "service.h"
+#include "getNetworkParams.h"
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	GetServiceSD(_T("wuauserv"));
+	GetNetInfo();
 	return 0;
 }
