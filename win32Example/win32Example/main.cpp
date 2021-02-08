@@ -1,7 +1,7 @@
 #include <tchar.h>
-#include "getaddrinfo.h"
+#include "service.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int ret = ResolveAddr("www.microsoft.com");
-	return ret;
+	GetServiceSD(_T("wuauserv"));
+	return 0;
 }

@@ -31,6 +31,12 @@
     <Filter Include="ヘッダー ファイル\securityDescriptor">
       <UniqueIdentifier>{669c3a4d-4953-4d55-bc67-2a9549d5180f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\service">
+      <UniqueIdentifier>{ba91688b-fbfb-4f73-8c7d-e97ea13d7989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\service">
+      <UniqueIdentifier>{c653ebc9-1214-489f-a45d-f64a50bec591}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -48,6 +54,9 @@
     <ClCompile Include="setAce.cpp">
       <Filter>ソース ファイル\securityDescriptor</Filter>
     </ClCompile>
+    <ClCompile Include="getServiceSD.cpp">
+      <Filter>ソース ファイル\service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -58,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="securityDescriptor.h">
       <Filter>ヘッダー ファイル\securityDescriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="service.h">
+      <Filter>ヘッダー ファイル\service</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
