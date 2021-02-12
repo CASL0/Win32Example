@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bluetoothapi.cpp" />
     <ClCompile Include="enumAce.cpp" />
     <ClCompile Include="getaddrinfo.cpp" />
     <ClCompile Include="getNetworkParams.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="wua.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bluetoothapi.h" />
     <ClInclude Include="getaddrinfo.h" />
     <ClInclude Include="getNetworkParams.h" />
     <ClInclude Include="securityDescriptor.h" />

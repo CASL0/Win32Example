@@ -1,8 +1,8 @@
 #include <tchar.h>
-#include "getNetworkParams.h"
+#include "bluetoothapi.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	GetNetInfo();
+	enumBthDevices();
 	return 0;
 }

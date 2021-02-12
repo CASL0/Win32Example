@@ -11,7 +11,7 @@ bool GetNetInfo(void)
 	ULONG ulOutBufLen = sizeof(FIXED_INFO);
 	DWORD dwRet;
 	dwRet = GetNetworkParams(nullptr, &ulOutBufLen);
-	std::shared_ptr<FIXED_INFO> pFixedInfo((FIXED_INFO*)malloc(ulOutBufLen));
+	std::shared_ptr<FIXED_INFO> pFixedInfo((FIXED_INFO*)malloc(ulOutBufLen), free);
 
 	dwRet = GetNetworkParams(pFixedInfo.get(), &ulOutBufLen);
 	if (dwRet != NO_ERROR)
