@@ -14,12 +14,41 @@ bool GetNetInfo(void)
 	std::shared_ptr<FIXED_INFO> pFixedInfo((FIXED_INFO*)malloc(ulOutBufLen));
 
 	dwRet = GetNetworkParams(pFixedInfo.get(), &ulOutBufLen);
-	if (dwRet == NO_ERROR)
+	if (dwRet != NO_ERROR)
 	{
-		std::cout << "Host Name: " << pFixedInfo->HostName << std::endl;
-		std::cout << "Domain Name: " << pFixedInfo->DomainName << std::endl;
-		std::cout << "Dns Server: " << pFixedInfo->DnsServerList.IpAddress.String << std::endl;
-		return true;
+		return false;
 	}
-	return false;
+
+	std::cout << "Host Name: " << pFixedInfo->HostName << std::endl;
+	std::cout << "Domain Name: " << pFixedInfo->DomainName << std::endl;
+	std::cout << "Dns Server: " << std::endl;
+	std::cout << "\t" << pFixedInfo->DnsServerList.IpAddress.String << std::endl;
+	IP_ADDR_STRING* pIpAddr;
+	pIpAddr = pFixedInfo->DnsServerList.Next;
+	while (pIpAddr)
+	{
+		std::cout << "\t" << pIpAddr->IpAddress.String;
+		pIpAddr = pIpAddr->Next;
+	}
+
+	std::cout << "Node Type: " << std::endl;
+	switch (pFixedInfo->NodeType)
+	{
+	case BROADCAST_NODETYPE:
+		std::cout << "\tBroadcast node" << std::endl;
+		break;
+	case PEER_TO_PEER_NODETYPE:
+		std::cout << "\tPeer to Peer node" << std::endl;
+		break;
+	case MIXED_NODETYPE:
+		std::cout << "\tMixed node" << std::endl;
+		break;
+	case HYBRID_NODETYPE:
+		std::cout << "\tHybrid node" << std::endl;
+		break;
+	default:
+		std::cout << "\tUnknown node type " << std::hex << pFixedInfo->NodeType << std::endl;
+		break;
+	}
+	return true;
 }
