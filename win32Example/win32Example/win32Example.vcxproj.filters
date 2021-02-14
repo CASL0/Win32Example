@@ -49,6 +49,12 @@
     <Filter Include="ヘッダー ファイル\bluetoothapi">
       <UniqueIdentifier>{257749c6-5dab-4416-9d11-3aa2f50e30a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\wsc">
+      <UniqueIdentifier>{ca51a46a-4cdb-488e-9d47-ee0c0f1cac81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\wsc">
+      <UniqueIdentifier>{1ac41e13-62b3-4c54-aa98-520504743ce0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -75,6 +81,9 @@
     <ClCompile Include="bluetoothapi.cpp">
       <Filter>ソース ファイル\bluetoothapi</Filter>
     </ClCompile>
+    <ClCompile Include="wsc.cpp">
+      <Filter>ソース ファイル\wsc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -94,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="bluetoothapi.h">
       <Filter>ヘッダー ファイル\bluetoothapi</Filter>
+    </ClInclude>
+    <ClInclude Include="wsc.h">
+      <Filter>ヘッダー ファイル\wsc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

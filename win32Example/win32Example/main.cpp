@@ -1,8 +1,8 @@
 #include <tchar.h>
-#include "bluetoothapi.h"
+#include "wsc.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	enumBthDevices();
+	getHealth();
 	return 0;
 }
