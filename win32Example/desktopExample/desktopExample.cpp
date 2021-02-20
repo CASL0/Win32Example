@@ -1,5 +1,12 @@
 ﻿#include "framework.h"
 #include "desktopExample.h"
+#include <shellapi.h>
+#include <vector>
+#include <string>
+#include <sstream>
+
+typedef std::basic_string<TCHAR> tstring;
+typedef std::basic_stringstream<TCHAR> tstringstream;
 
 #define MAX_LOADSTRING 100
 #define IDC_EDIT 1
@@ -98,7 +105,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    {
       return FALSE;
    }
-
+   DragAcceptFiles(hWnd, TRUE);
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
@@ -121,6 +128,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             10, 10, 200, 200, 
             hWnd,
             (HMENU)IDC_EDIT, hInst, nullptr);
+        break;
+    }
+    case WM_DROPFILES:
+    {
+        std::shared_ptr<void> hDrop((HDROP)wParam, DragFinish);
+
+        //第二引数0xffffffff ---> ドロップされたファイル数
+        int numDropedFiles = DragQueryFile((HDROP)hDrop.get(), -1, nullptr, 0);
+        if (numDropedFiles == 0)
+        {
+            break;
+        }
+
+        tstringstream ssFileList;
+        for (int i = 0; i < numDropedFiles; i++)
+        {
+            //  0 < 第二引数 < 合計数 ---> 第三引数がnullの時はファイル名に必要な文字数を返す
+            int requiredSize = DragQueryFile((HDROP)hDrop.get(), i, nullptr, 0);
+            std::vector<TCHAR> szFileName(requiredSize);
+            DragQueryFile((HDROP)hDrop.get(), i, szFileName.data(), szFileName.size() + 1);
+            ssFileList << szFileName.data();
+            ssFileList << _T("\r\n");
+        }
+        SetWindowText(hEdit, ssFileList.str().c_str());
+        break;
     }
     case WM_COMMAND:
         {
