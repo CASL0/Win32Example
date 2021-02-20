@@ -147,6 +147,7 @@
     <ClCompile Include="getServiceSD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="setAce.cpp" />
+    <ClCompile Include="wlanapi.cpp" />
     <ClCompile Include="wsc.cpp" />
     <ClCompile Include="wua.cpp" />
   </ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="getNetworkParams.h" />
     <ClInclude Include="securityDescriptor.h" />
     <ClInclude Include="service.h" />
+    <ClInclude Include="wlanapi.h" />
     <ClInclude Include="wsc.h" />
     <ClInclude Include="wua.h" />
   </ItemGroup>

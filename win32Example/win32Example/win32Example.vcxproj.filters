@@ -61,6 +61,12 @@
     <Filter Include="ヘッダー ファイル\findFirstFile">
       <UniqueIdentifier>{78b5a71e-cda8-4151-ad68-06ab4207447a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\wlanapi">
+      <UniqueIdentifier>{33cf48dd-883f-4404-b8bd-9cecd3df9bb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\wlanapi">
+      <UniqueIdentifier>{6625e2f5-6c80-4c96-a40c-f2a112266ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -93,6 +99,9 @@
     <ClCompile Include="findFirstFile.cpp">
       <Filter>ソース ファイル\findFirstFile</Filter>
     </ClCompile>
+    <ClCompile Include="wlanapi.cpp">
+      <Filter>ソース ファイル\wlanapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -118,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="findFirstFile.h">
       <Filter>ヘッダー ファイル\findFirstFile</Filter>
+    </ClInclude>
+    <ClInclude Include="wlanapi.h">
+      <Filter>ヘッダー ファイル\wlanapi</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
