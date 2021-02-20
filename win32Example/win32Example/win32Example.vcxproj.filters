@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\wsc">
       <UniqueIdentifier>{1ac41e13-62b3-4c54-aa98-520504743ce0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\findFirstFile">
+      <UniqueIdentifier>{a8bf8cc7-688a-4d0d-9da7-516c2a45986b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\findFirstFile">
+      <UniqueIdentifier>{78b5a71e-cda8-4151-ad68-06ab4207447a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -84,6 +90,9 @@
     <ClCompile Include="wsc.cpp">
       <Filter>ソース ファイル\wsc</Filter>
     </ClCompile>
+    <ClCompile Include="findFirstFile.cpp">
+      <Filter>ソース ファイル\findFirstFile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -106,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="wsc.h">
       <Filter>ヘッダー ファイル\wsc</Filter>
+    </ClInclude>
+    <ClInclude Include="findFirstFile.h">
+      <Filter>ヘッダー ファイル\findFirstFile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,12 +6,15 @@
 
 #pragma comment(lib, "IPHLPAPI.lib")
 
+inline void* MemAlloc(size_t size);
+inline bool MemFree(void* ptr);
+
 bool GetNetInfo(void)
 {
 	ULONG ulOutBufLen = sizeof(FIXED_INFO);
 	DWORD dwRet;
 	dwRet = GetNetworkParams(nullptr, &ulOutBufLen);
-	std::shared_ptr<FIXED_INFO> pFixedInfo((FIXED_INFO*)malloc(ulOutBufLen), free);
+	std::shared_ptr<FIXED_INFO> pFixedInfo((FIXED_INFO*)MemAlloc(ulOutBufLen), MemFree);
 
 	dwRet = GetNetworkParams(pFixedInfo.get(), &ulOutBufLen);
 	if (dwRet != NO_ERROR)
@@ -51,4 +54,13 @@ bool GetNetInfo(void)
 		break;
 	}
 	return true;
+}
+
+inline void* MemAlloc(size_t size)
+{
+	return HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, size);
+}
+inline bool MemFree(void* lpMem)
+{
+	return HeapFree(GetProcessHeap(), 0, lpMem);
 }
