@@ -1,6 +1,7 @@
 #include "findFirstFile.h"
 #include <Shlwapi.h>
 #include <iostream>
+#include <memory>
 
 void getAllFileNamesFromDir(std::vector<tstring>& fileNameList, std::vector<TCHAR> szDirPath)
 {
@@ -15,8 +16,8 @@ void getAllFileNamesFromDir(std::vector<tstring>& fileNameList, std::vector<TCHA
     _tcscat_s(szPattern.data(), MAX_PATH, sMatchPattern.c_str());
 
 	WIN32_FIND_DATA fdFile;
-	HANDLE  hFind = FindFirstFile(szPattern.data(), &fdFile);
-	if (hFind == INVALID_HANDLE_VALUE)
+    std::shared_ptr<void> hFind(FindFirstFile(szPattern.data(), &fdFile), FindClose);
+	if (hFind.get() == INVALID_HANDLE_VALUE)
 	{
         tcout << _T("FindFirstFile failed with error: ") << GetLastError() << std::endl;;
 		return;
@@ -44,7 +45,6 @@ void getAllFileNamesFromDir(std::vector<tstring>& fileNameList, std::vector<TCHA
         {
             fileNameList.push_back(sFileName);
         }
-    } while (FindNextFile(hFind, &fdFile));
+    } while (FindNextFile(hFind.get(), &fdFile));
 
-    FindClose(hFind);
 }
