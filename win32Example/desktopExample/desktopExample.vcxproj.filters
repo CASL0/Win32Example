@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\openfile">
+      <UniqueIdentifier>{50b603a9-4128-4b4d-a3ab-c77a56151007}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\openfile">
+      <UniqueIdentifier>{6f8f04a6-522d-4175-bdbc-a444d0bebf73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -27,10 +33,16 @@
     <ClInclude Include="desktopExample.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="getOpenFile.h">
+      <Filter>ヘッダー ファイル\openfile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="desktopExample.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="getOpenFile.cpp">
+      <Filter>ソース ファイル\openfile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

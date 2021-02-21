@@ -142,11 +142,13 @@
   <ItemGroup>
     <ClInclude Include="desktopExample.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="getOpenFile.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="desktopExample.cpp" />
+    <ClCompile Include="getOpenFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktopExample.rc" />

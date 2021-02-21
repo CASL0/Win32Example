@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include "getOpenFile.h"
 
 typedef std::basic_string<TCHAR> tstring;
 typedef std::basic_stringstream<TCHAR> tstringstream;
@@ -164,6 +165,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                break;
+            case IDM_OPEN:
+                getOpenFile();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
