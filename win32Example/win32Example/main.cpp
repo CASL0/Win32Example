@@ -1,7 +1,7 @@
 #include <tchar.h>
-#include "wlanapi.h"
+#include "displayNetEvent.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
-	enumWlanInterface();
+	displayNetEvent();
 	return 0;
 }

@@ -58,8 +58,13 @@ bool getOpenFile()
 	{
 		return false;
 	}
-
-	tcout << _T("ファイルパス") << ofn.lpstrFile << std::endl;
-	tcout << _T("ファイル名") << ofn.lpstrFileTitle << std::endl;
+	tstring filePath = _T("ファイルパス：");
+	filePath += ofn.lpstrFile;
+	filePath += _T("\n");
+	tstring fileName = _T("ファイル名：");
+	fileName += ofn.lpstrFileTitle;
+	fileName += _T("\n");
+	OutputDebugString(filePath.c_str());
+	OutputDebugString(fileName.c_str());
 	return true;
 }

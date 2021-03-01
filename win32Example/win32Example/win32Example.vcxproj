@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bluetoothapi.cpp" />
+    <ClCompile Include="displayNetEvent.cpp" />
     <ClCompile Include="enumAce.cpp" />
     <ClCompile Include="findFirstFile.cpp" />
     <ClCompile Include="getaddrinfo.cpp" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bluetoothapi.h" />
+    <ClInclude Include="displayNetEvent.h" />
     <ClInclude Include="findFirstFile.h" />
     <ClInclude Include="getaddrinfo.h" />
     <ClInclude Include="getNetworkParams.h" />

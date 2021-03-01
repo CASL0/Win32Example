@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\wlanapi">
       <UniqueIdentifier>{6625e2f5-6c80-4c96-a40c-f2a112266ec3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\displayNetEvent">
+      <UniqueIdentifier>{653cb9f1-6cc6-4dcb-9bc0-6e54cc4bf4f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\displayNetEvent">
+      <UniqueIdentifier>{36f8bb8d-6e24-4e00-977e-fb4ba70257cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -102,6 +108,9 @@
     <ClCompile Include="wlanapi.cpp">
       <Filter>ソース ファイル\wlanapi</Filter>
     </ClCompile>
+    <ClCompile Include="displayNetEvent.cpp">
+      <Filter>ソース ファイル\displayNetEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -130,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="wlanapi.h">
       <Filter>ヘッダー ファイル\wlanapi</Filter>
+    </ClInclude>
+    <ClInclude Include="displayNetEvent.h">
+      <Filter>ヘッダー ファイル\displayNetEvent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
