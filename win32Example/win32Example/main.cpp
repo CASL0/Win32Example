@@ -1,7 +1,7 @@
 #include <tchar.h>
-#include "displayNetEvent.h"
+#include "httpRequest.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
-	displayNetEvent();
+	request();
 	return 0;
 }

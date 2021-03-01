@@ -146,6 +146,7 @@
     <ClCompile Include="getaddrinfo.cpp" />
     <ClCompile Include="getNetworkParams.cpp" />
     <ClCompile Include="getServiceSD.cpp" />
+    <ClCompile Include="httpRequest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="setAce.cpp" />
     <ClCompile Include="wlanapi.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="findFirstFile.h" />
     <ClInclude Include="getaddrinfo.h" />
     <ClInclude Include="getNetworkParams.h" />
+    <ClInclude Include="httpRequest.h" />
     <ClInclude Include="securityDescriptor.h" />
     <ClInclude Include="service.h" />
     <ClInclude Include="wlanapi.h" />

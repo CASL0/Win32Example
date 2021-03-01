@@ -73,6 +73,12 @@
     <Filter Include="ヘッダー ファイル\displayNetEvent">
       <UniqueIdentifier>{36f8bb8d-6e24-4e00-977e-fb4ba70257cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\httprequest">
+      <UniqueIdentifier>{1c3222d0-0daa-4e3e-9e32-77b9e5315e68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\httprequest">
+      <UniqueIdentifier>{382ce687-2125-48c5-b7d0-677f73f33836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -111,6 +117,9 @@
     <ClCompile Include="displayNetEvent.cpp">
       <Filter>ソース ファイル\displayNetEvent</Filter>
     </ClCompile>
+    <ClCompile Include="httpRequest.cpp">
+      <Filter>ソース ファイル\httprequest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -142,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="displayNetEvent.h">
       <Filter>ヘッダー ファイル\displayNetEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="httpRequest.h">
+      <Filter>ヘッダー ファイル\httprequest</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
