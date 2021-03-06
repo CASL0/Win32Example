@@ -39,7 +39,7 @@ bool request()
 	std::shared_ptr<std::remove_pointer<HINTERNET>::type> hRequest(
 		WinHttpOpenRequest(hConnect.get(),
 			L"GET",							//リクエストメソッド
-			nullptr,						//要求するリソース(ファイル名やモジュール名等)
+			L"/",							//パス
 			nullptr,						//HTTPバージョン。nullptr ---> HTTP1.1
 			WINHTTP_NO_REFERER,				//参照元URLの指定。WINHTTP_NO_REFERER ---> 参照元ドキュメントの未指定
 			WINHTTP_DEFAULT_ACCEPT_TYPES,	//accept-typesヘッダの指定
@@ -77,6 +77,25 @@ bool request()
 	}
 
 	DWORD dwSize;
+	WinHttpQueryHeaders(hRequest.get(),
+		WINHTTP_QUERY_RAW_HEADERS_CRLF, //CRLFまで全てを読み込む
+		WINHTTP_HEADER_NAME_BY_INDEX,	//第二引数がWINHTTP_QUERY_CUSTOMでなければこの値
+		nullptr,						//長さを取得するためnullptrとする
+		&dwSize,						//サイズの取得
+		WINHTTP_NO_HEADER_INDEX			//複数ヘッダがあるとき以外WINHTTP_NO_HEADER_INDEXを指定
+	);
+
+	std::vector<BYTE> byteHeader(dwSize);
+	bRet = WinHttpQueryHeaders(hRequest.get(), WINHTTP_QUERY_RAW_HEADERS_CRLF, WINHTTP_HEADER_NAME_BY_INDEX, byteHeader.data(), &dwSize, WINHTTP_NO_HEADER_INDEX);
+	if (!bRet)
+	{
+		std::cerr << "WinHttpQueryHeaders failed with error: " << GetLastError() << std::endl;
+		return false;
+	}
+
+	std::wstring sHeader((LPWSTR)byteHeader.data());
+	std::wcerr << sHeader << std::endl;
+	
 	do
 	{
 		dwSize = 0;
@@ -92,7 +111,8 @@ bool request()
 		}
 		else
 		{
-			std::cerr << szBuffer.data();
+			std::string sBody(szBuffer.data());
+			std::cerr << sBody;
 		}
 
 	} while (dwSize > 0);
