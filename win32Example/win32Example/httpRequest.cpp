@@ -20,11 +20,28 @@ bool request()
 		return false;
 	}
 
+	std::wstring sUrl = L"https://www.microsoft.com";
+	URL_COMPONENTS urlComponents = { 0 };
+	urlComponents.dwStructSize = sizeof(URL_COMPONENTS);
+	std::vector<WCHAR> szHost((DWORD)-1);
+	std::vector<WCHAR> szPath((DWORD)-1);
+	urlComponents.lpszHostName = szHost.data();
+	urlComponents.dwHostNameLength = szHost.size();
+	urlComponents.lpszUrlPath = szPath.data();
+	urlComponents.dwUrlPathLength = szPath.size();
+	bool bRet = WinHttpCrackUrl(sUrl.c_str(), sUrl.length(), 0, &urlComponents);
+	if (!bRet)
+	{
+		std::cerr << "WinHttpCrakUrl failed with error: " << GetLastError() << std::endl;
+		return false;
+	}
+
 	//サーバーの設定
 	std::shared_ptr<std::remove_pointer<HINTERNET>::type> hConnect(
 		WinHttpConnect(hSession.get(),
-			L"www.microsoft.com",		//FQDN or IPアドレス文字列
+			szHost.data(),				//FQDN or IPアドレス文字列
 			INTERNET_DEFAULT_HTTPS_PORT,//ポート番号。このフラグの場合は後でWINHTTP_FLAG_SECUREを設定する(WinHttpOpenRequest)
+										//HTTPの場合は「INTERNET_DEFAULT_HTTP_PORT」
 			0							//0で固定
 		),
 		WinHttpCloseHandle
@@ -39,11 +56,12 @@ bool request()
 	std::shared_ptr<std::remove_pointer<HINTERNET>::type> hRequest(
 		WinHttpOpenRequest(hConnect.get(),
 			L"GET",							//リクエストメソッド
-			L"/",							//パス
+			szPath.data(),					//パス
 			nullptr,						//HTTPバージョン。nullptr ---> HTTP1.1
 			WINHTTP_NO_REFERER,				//参照元URLの指定。WINHTTP_NO_REFERER ---> 参照元ドキュメントの未指定
 			WINHTTP_DEFAULT_ACCEPT_TYPES,	//accept-typesヘッダの指定
 			WINHTTP_FLAG_SECURE				//HTTPSの場合はこのフラグを指定
+											//HTTPの場合は0
 		),
 		WinHttpCloseHandle
 	);
@@ -53,7 +71,7 @@ bool request()
 		return false;
 	}
 
-	bool bRet = WinHttpSendRequest(hRequest.get(), 
+	bRet = WinHttpSendRequest(hRequest.get(), 
 		WINHTTP_NO_ADDITIONAL_HEADERS,	//追加のヘッダ
 		0,								//追加のヘッダサイズ
 		WINHTTP_NO_REQUEST_DATA,		//POSTメソッド等で送るボディ
@@ -95,7 +113,7 @@ bool request()
 
 	std::wstring sHeader((LPWSTR)byteHeader.data());
 	std::wcerr << sHeader << std::endl;
-	
+	std::string sResponse;
 	do
 	{
 		dwSize = 0;
@@ -111,10 +129,10 @@ bool request()
 		}
 		else
 		{
-			std::string sBody(szBuffer.data());
-			std::cerr << sBody;
+			sResponse += std::string(szBuffer.data());
 		}
 
 	} while (dwSize > 0);
+	std::cerr << sResponse;
 	return true;
 }
