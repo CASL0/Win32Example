@@ -3,8 +3,13 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include <wincred.h>
 #include "httpRequest.h"
 #pragma comment(lib,"winhttp.lib")
+#pragma comment (lib, "credui.lib")
+
+
+BOOL ShowCredentialDialog(const std::wstring& sHostName, std::wstring& sUserName, std::wstring& sPasswd);
 
 bool request()
 {
@@ -71,8 +76,6 @@ bool request()
 		return false;
 	}
 
-	WinHttpSetCredentials(hRequest.get(), WINHTTP_AUTH_TARGET_SERVER, WINHTTP_AUTH_SCHEME_BASIC, L"user", L"pass", nullptr);
-
 	bRet = WinHttpSendRequest(hRequest.get(), 
 		WINHTTP_NO_ADDITIONAL_HEADERS,	//追加のヘッダ
 		0,								//追加のヘッダサイズ
@@ -111,6 +114,57 @@ bool request()
 		return false;
 	}
 	std::cerr << "Status code: " << dwStatusCode << std::endl;
+
+	switch (dwStatusCode)
+	{
+	case HTTP_STATUS_OK:
+		return true;
+	case HTTP_STATUS_DENIED://401
+		break;
+	default:
+		return false;
+	}
+
+	DWORD dwSupportedSchemes, dwFirstScheme, dwAuthTarget;
+	WinHttpQueryAuthSchemes(hRequest.get(), &dwSupportedSchemes, &dwFirstScheme, &dwAuthTarget);
+	DWORD dwAuthScheme;
+	if (dwSupportedSchemes & WINHTTP_AUTH_SCHEME_NEGOTIATE)
+		dwAuthScheme = WINHTTP_AUTH_SCHEME_NEGOTIATE;
+	else if (dwSupportedSchemes & WINHTTP_AUTH_SCHEME_NTLM)
+		dwAuthScheme = WINHTTP_AUTH_SCHEME_NTLM;
+	else if (dwSupportedSchemes & WINHTTP_AUTH_SCHEME_PASSPORT)
+		dwAuthScheme = WINHTTP_AUTH_SCHEME_PASSPORT;
+	else if (dwSupportedSchemes & WINHTTP_AUTH_SCHEME_DIGEST)
+		dwAuthScheme = WINHTTP_AUTH_SCHEME_DIGEST;
+	else if (dwSupportedSchemes & WINHTTP_AUTH_SCHEME_BASIC)
+		dwAuthScheme = WINHTTP_AUTH_SCHEME_BASIC;
+	else
+		return FALSE;
+
+	std::wstring sUserName;
+	std::wstring sPasswd;
+
+	if (!ShowCredentialDialog(szHost.data(), sUserName, sPasswd))
+	{
+		return FALSE;
+	}
+	WinHttpSetCredentials(hRequest.get(), WINHTTP_AUTH_TARGET_SERVER, dwAuthScheme, sUserName.c_str(), sPasswd.c_str(), nullptr);
+	WinHttpSendRequest(hRequest.get(), WINHTTP_NO_ADDITIONAL_HEADERS, 0, WINHTTP_NO_REQUEST_DATA, 0, 0, 0);
+	WinHttpReceiveResponse(hRequest.get(), nullptr);
+	bRet = WinHttpQueryHeaders(hRequest.get(),
+		WINHTTP_QUERY_STATUS_CODE |
+		WINHTTP_QUERY_FLAG_NUMBER,
+		WINHTTP_HEADER_NAME_BY_INDEX,
+		&dwStatusCode,
+		&dwSize,
+		nullptr);
+	if (!bRet)
+	{
+		std::cerr << "WinHttpQueryHeaders failed with error: " << GetLastError() << std::endl;
+		return false;
+	}
+	std::cerr << "Status code: " << dwStatusCode << std::endl;
+	return TRUE;
 
 	WinHttpQueryHeaders(hRequest.get(),
 		WINHTTP_QUERY_RAW_HEADERS_CRLF, //CRLFまで全てを読み込む
@@ -152,4 +206,43 @@ bool request()
 	} while (dwSize > 0);
 	std::cerr << sResponse;
 	return true;
+}
+
+BOOL ShowCredentialDialog(const std::wstring& sHostName, std::wstring& sUserName, std::wstring& sPasswd)
+{
+	constexpr size_t BUFFER_SIZE = 256;
+	std::vector<WCHAR> szTmpUserName(BUFFER_SIZE);
+	std::vector<WCHAR> szDomain(BUFFER_SIZE);
+	std::vector<WCHAR> szPasswd(BUFFER_SIZE);
+	DWORD dwRet = CredUIPromptForCredentials(
+		nullptr, 
+		sHostName.c_str(),		//資格情報のターゲット名(サーバー等)
+		nullptr,				//nullptrで固定
+		0, 
+		szTmpUserName.data(),	//「ドメイン\ユーザー名」で格納される
+		szTmpUserName.size(), 
+		szPasswd.data(),		//パスワードの格納
+		szPasswd.size(), 
+		nullptr, 
+		CREDUI_FLAGS_DO_NOT_PERSIST
+	);
+	if (dwRet != NO_ERROR)
+	{
+		return FALSE;
+	}
+	sPasswd = std::wstring(szPasswd.data());
+	std::vector<WCHAR> szUserName(BUFFER_SIZE);
+	dwRet = CredUIParseUserName(
+		szTmpUserName.data(), //UPN等のアカウント名
+		szUserName.data(),	  //ユーザー名を抽出し格納する
+		szUserName.size(), 
+		szDomain.data(),	  //ドメイン
+		szDomain.size()
+	);
+	if (dwRet != NO_ERROR)
+	{
+		return FALSE;
+	}
+	sUserName = std::wstring(szUserName.data());
+	return TRUE;
 }
