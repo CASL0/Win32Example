@@ -20,7 +20,7 @@ bool request()
 		return false;
 	}
 
-	std::wstring sUrl = L"https://www.microsoft.com";
+	std::wstring sUrl = L"http://eternalwindows.jp/network/winhttp/sec/sample.html";
 	URL_COMPONENTS urlComponents = { 0 };
 	urlComponents.dwStructSize = sizeof(URL_COMPONENTS);
 	std::vector<WCHAR> szHost((DWORD)-1);
@@ -71,6 +71,8 @@ bool request()
 		return false;
 	}
 
+	WinHttpSetCredentials(hRequest.get(), WINHTTP_AUTH_TARGET_SERVER, WINHTTP_AUTH_SCHEME_BASIC, L"user", L"pass", nullptr);
+
 	bRet = WinHttpSendRequest(hRequest.get(), 
 		WINHTTP_NO_ADDITIONAL_HEADERS,	//追加のヘッダ
 		0,								//追加のヘッダサイズ
@@ -94,7 +96,22 @@ bool request()
 		return false;
 	}
 
-	DWORD dwSize;
+	DWORD dwSize = sizeof(DWORD);
+	DWORD dwStatusCode;
+	bRet = WinHttpQueryHeaders(hRequest.get(),
+		WINHTTP_QUERY_STATUS_CODE |
+		WINHTTP_QUERY_FLAG_NUMBER,
+		WINHTTP_HEADER_NAME_BY_INDEX,
+		&dwStatusCode,
+		&dwSize,
+		nullptr);
+	if (!bRet)
+	{
+		std::cerr << "WinHttpQueryHeaders failed with error: " << GetLastError() << std::endl;
+		return false;
+	}
+	std::cerr << "Status code: " << dwStatusCode << std::endl;
+
 	WinHttpQueryHeaders(hRequest.get(),
 		WINHTTP_QUERY_RAW_HEADERS_CRLF, //CRLFまで全てを読み込む
 		WINHTTP_HEADER_NAME_BY_INDEX,	//第二引数がWINHTTP_QUERY_CUSTOMでなければこの値
