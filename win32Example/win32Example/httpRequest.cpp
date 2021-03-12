@@ -3,29 +3,31 @@
 #include <memory>
 #include <iostream>
 #include <vector>
+#include <string>
 #include <wincred.h>
 #include "httpRequest.h"
 #pragma comment(lib,"winhttp.lib")
 #pragma comment (lib, "credui.lib")
 
-
+void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DWORD dwInternetStatus, LPVOID lpvStatusInformation, DWORD dwStatusInformationLength);
 BOOL ShowCredentialDialog(const std::wstring& sHostName, std::wstring& sUserName, std::wstring& sPasswd);
 
 bool request()
 {
 	//HTTPセッションの詳細を保持するハンドル
 	std::shared_ptr<std::remove_pointer<HINTERNET>::type> hSession(
-		WinHttpOpen(L"WinHTTP Example/1.0", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0),
+		WinHttpOpen(L"WinHTTP Example/1.0", WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, WINHTTP_FLAG_ASYNC),
 		//			UA						IEプロキシ設定を踏襲				 固定					固定					 固定	
 		WinHttpCloseHandle
 	);
+
 	if (hSession == nullptr)
 	{
 		std::cerr << "WinHttpOpen failed with error: " << GetLastError() << std::endl;
 		return false;
 	}
 
-	std::wstring sUrl = L"http://eternalwindows.jp/network/winhttp/sec/sample.html";
+	std::wstring sUrl = L"https://www.microsoft.com";
 	URL_COMPONENTS urlComponents = { 0 };
 	urlComponents.dwStructSize = sizeof(URL_COMPONENTS);
 	std::vector<WCHAR> szHost((DWORD)-1);
@@ -75,14 +77,14 @@ bool request()
 		std::cerr << "WinHttpOpenRequest failed with error: " << GetLastError() << std::endl;
 		return false;
 	}
-
+	WinHttpSetStatusCallback(hRequest.get(), WinHttpStatusCallback, WINHTTP_CALLBACK_FLAG_ALL_COMPLETIONS, 0);
 	bRet = WinHttpSendRequest(hRequest.get(), 
 		WINHTTP_NO_ADDITIONAL_HEADERS,	//追加のヘッダ
 		0,								//追加のヘッダサイズ
 		WINHTTP_NO_REQUEST_DATA,		//POSTメソッド等で送るボディ
 		0,								//第4引数のサイズ
 		0,								//content-lengthヘッダの指定
-		0								//コールバックに渡す引数
+		(DWORD_PTR)nullptr				//コールバックに渡す引数
 	);
 	if (!bRet)
 	{
@@ -90,6 +92,9 @@ bool request()
 		return false;
 	}
 
+	MessageBox(nullptr, TEXT("ボタンを押すと終了します。"), TEXT("OK"), MB_OK);
+
+	/*
 	bRet = WinHttpReceiveResponse(hRequest.get(), nullptr);
 	//											  固定
 
@@ -205,6 +210,7 @@ bool request()
 
 	} while (dwSize > 0);
 	std::cerr << sResponse;
+	*/
 	return true;
 }
 
@@ -245,4 +251,91 @@ BOOL ShowCredentialDialog(const std::wstring& sHostName, std::wstring& sUserName
 	}
 	sUserName = std::wstring(szUserName.data());
 	return TRUE;
+}
+
+
+void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DWORD dwInternetStatus, LPVOID lpvStatusInformation, DWORD dwStatusInformationLength)
+{
+	HINTERNET hRequest = hInternet;
+	BOOL bRet;
+	switch (dwInternetStatus)
+	{
+
+	//リクエストが完了
+	//lpvStatusInformationはnullptr
+	case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
+		bRet = WinHttpReceiveResponse(hRequest, nullptr);
+		if (!bRet)
+		{
+			std::cerr << "WinHttpReceiveResponse failed with error: " << GetLastError() << std::endl;
+			return;
+		}
+		break;
+
+	//応答ヘッダを受信済み、WinHttpQueryHeadersで問い合わせること可能
+	//lpvStatusInformationはnullptr
+	case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
+	{
+		DWORD dwStatusCode = 0;
+		DWORD dwSize = sizeof(DWORD);
+		bRet = WinHttpQueryHeaders(hRequest, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_HEADER_NAME_BY_INDEX, &dwStatusCode, &dwSize, WINHTTP_NO_HEADER_INDEX);
+		if (!bRet)
+		{
+			std::cerr << "WinHttpQueryHeaders failed with error: " << GetLastError() << std::endl;
+			return;
+		}
+		switch (dwStatusCode)
+		{
+		case HTTP_STATUS_OK:
+			if (!WinHttpQueryDataAvailable(hRequest, nullptr))
+			{
+				std::cerr << "WinHttpQueryDataAvailable failed with error: " << GetLastError() << std::endl;
+				return;
+			}
+			break;
+		case HTTP_STATUS_DENIED:
+			break;
+		default:
+		{
+			std::wstring sMsg = L"Status Code: ";
+			sMsg += std::to_wstring(dwStatusCode);
+			MessageBox(nullptr, sMsg.c_str(), nullptr, MB_ICONWARNING);
+			break;
+		}
+
+		}
+	}
+	break;
+
+	//WinHttpReadDataを使ってデータが読み取り可能
+	//lpvStatusInformationは利用可能データのバイト数
+	//dwStatusInformationLengthは4(DWORDのサイズ)
+	case WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE:
+	{
+		DWORD dwSize = *((LPDWORD)lpvStatusInformation);
+		if (dwSize == 0)
+		{
+			return;
+		}
+		std::vector<char> szBuf(dwSize + 1);
+		WinHttpReadData(hRequest, szBuf.data(), dwSize, nullptr);
+		std::string sResponse(szBuf.data());
+		std::cerr << sResponse << std::endl;
+	}
+	break;
+	case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
+		//非同期の場合は第二引数は必ずnullptrにする
+		//「非同期」かつ「返り値がTRUE」かつ「データがavailable」--> WINHTTP_STATUS_CALLBACK_DATA_AVAILABLE
+		if (!WinHttpQueryDataAvailable(hRequest, nullptr))
+		{
+			std::cerr << "WinHttpQueryDataAvailable failed with error: " << GetLastError() << std::endl;
+			return;
+		}
+		break;
+	case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
+	{
+		LPWINHTTP_ASYNC_RESULT lpAsyncResult = (LPWINHTTP_ASYNC_RESULT)lpvStatusInformation;
+		std::cerr << "Error\nID: " << lpAsyncResult->dwResult << std::endl << "ret value: " << lpAsyncResult->dwError << std::endl;
+	}
+	}
 }
