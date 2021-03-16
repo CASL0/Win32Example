@@ -120,6 +120,9 @@
     <ClCompile Include="httpRequest.cpp">
       <Filter>ソース ファイル\httprequest</Filter>
     </ClCompile>
+    <ClCompile Include="enumServOwner.cpp">
+      <Filter>ソース ファイル\securityDescriptor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="httpRequest.h">
       <Filter>ヘッダー ファイル\httprequest</Filter>
+    </ClInclude>
+    <ClInclude Include="enumServOwner.h">
+      <Filter>ヘッダー ファイル\securityDescriptor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

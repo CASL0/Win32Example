@@ -77,7 +77,7 @@ bool request()
 		std::cerr << "WinHttpOpenRequest failed with error: " << GetLastError() << std::endl;
 		return false;
 	}
-	WinHttpSetStatusCallback(hRequest.get(), WinHttpStatusCallback, WINHTTP_CALLBACK_FLAG_ALL_COMPLETIONS, 0);
+	WinHttpSetStatusCallback(hRequest.get(), WinHttpStatusCallback, WINHTTP_CALLBACK_FLAG_ALL_NOTIFICATIONS, 0);
 	bRet = WinHttpSendRequest(hRequest.get(), 
 		WINHTTP_NO_ADDITIONAL_HEADERS,	//追加のヘッダ
 		0,								//追加のヘッダサイズ
@@ -264,6 +264,7 @@ void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DW
 	//リクエストが完了
 	//lpvStatusInformationはnullptr
 	case WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE:
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_SENDREQUEST_COMPLETE\n");
 		bRet = WinHttpReceiveResponse(hRequest, nullptr);
 		if (!bRet)
 		{
@@ -276,6 +277,7 @@ void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DW
 	//lpvStatusInformationはnullptr
 	case WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE:
 	{
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_HEADERS_AVAILABLE\n");
 		DWORD dwStatusCode = 0;
 		DWORD dwSize = sizeof(DWORD);
 		bRet = WinHttpQueryHeaders(hRequest, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER, WINHTTP_HEADER_NAME_BY_INDEX, &dwStatusCode, &dwSize, WINHTTP_NO_HEADER_INDEX);
@@ -312,6 +314,7 @@ void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DW
 	//dwStatusInformationLengthは4(DWORDのサイズ)
 	case WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE:
 	{
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_DATA_AVAILABLE\n");
 		DWORD dwSize = *((LPDWORD)lpvStatusInformation);
 		if (dwSize == 0)
 		{
@@ -324,6 +327,8 @@ void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DW
 	}
 	break;
 	case WINHTTP_CALLBACK_STATUS_READ_COMPLETE:
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_READ_COMPLETE\n");
+
 		//非同期の場合は第二引数は必ずnullptrにする
 		//「非同期」かつ「返り値がTRUE」かつ「データがavailable」--> WINHTTP_STATUS_CALLBACK_DATA_AVAILABLE
 		if (!WinHttpQueryDataAvailable(hRequest, nullptr))
@@ -332,8 +337,24 @@ void CALLBACK WinHttpStatusCallback(HINTERNET hInternet, DWORD_PTR dwContext, DW
 			return;
 		}
 		break;
+	case WINHTTP_CALLBACK_STATUS_CONNECTED_TO_SERVER:
+	{
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_CONNECTED_TO_SERVER\n");
+		std::wstring sIpAddr((LPWSTR)lpvStatusInformation);
+		sIpAddr += L"\n";
+		OutputDebugString(sIpAddr.c_str());
+	}
+	break;
+	case WINHTTP_CALLBACK_STATUS_NAME_RESOLVED:
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_NAME_RESOLVED\n");
+		break;
+	case WINHTTP_CALLBACK_STATUS_SECURE_FAILURE:
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_SECURE_FAILURE\n");
+		break;
 	case WINHTTP_CALLBACK_STATUS_REQUEST_ERROR:
 	{
+		OutputDebugString(L"WINHTTP_CALLBACK_STATUS_REQUEST_ERROR\n");
+
 		LPWINHTTP_ASYNC_RESULT lpAsyncResult = (LPWINHTTP_ASYNC_RESULT)lpvStatusInformation;
 		std::cerr << "Error\nID: " << lpAsyncResult->dwResult << std::endl << "ret value: " << lpAsyncResult->dwError << std::endl;
 	}

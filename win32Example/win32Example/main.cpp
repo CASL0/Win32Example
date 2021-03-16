@@ -1,7 +1,9 @@
 #include <tchar.h>
-#include "httpRequest.h"
+#include <iostream>
+#include "enumServOwner.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
-	request();
+	setlocale(LC_ALL, "japanese");
+	getOwner();
 	return 0;
 }
