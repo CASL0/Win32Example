@@ -10,7 +10,10 @@ typedef std::basic_string<TCHAR> tstring;
 typedef std::basic_stringstream<TCHAR> tstringstream;
 
 #define MAX_LOADSTRING 100
-#define IDC_EDIT 1
+#define IDC_EDIT 100
+#define IDC_BUTTON   101
+#define IDC_CHECKBOX 102
+
 // グローバル変数:
 HINSTANCE hInst;                                // 現在のインターフェイス
 WCHAR szTitle[MAX_LOADSTRING];                  // タイトル バーのテキスト
@@ -116,6 +119,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static HWND hEdit = nullptr;
+    static HWND hwndButton = nullptr;
+
     switch (message)
     {
     case WM_CREATE:
@@ -129,6 +134,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             10, 10, 200, 200, 
             hWnd,
             (HMENU)IDC_EDIT, hInst, nullptr);
+
+        hwndButton = CreateWindowEx(0, _T("BUTTON"), _T("ボタン"), WS_CHILD | WS_VISIBLE, 250, 10, 80, 40, hWnd, (HMENU)IDC_BUTTON, ((LPCREATESTRUCT)lParam)->hInstance, nullptr);
+        CreateWindowEx(0, _T("BUTTON"), _T("ボタンを有効化する"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 350, 10, 170, 40, hWnd, (HMENU)IDC_CHECKBOX, ((LPCREATESTRUCT)lParam)->hInstance, nullptr);
+        CheckDlgButton(hWnd, IDC_CHECKBOX, BST_CHECKED);
+
         break;
     }
     case WM_DROPFILES:
@@ -160,6 +170,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             int wmId = LOWORD(wParam);
             switch (wmId)
             {
+            case IDC_BUTTON:
+                MessageBox(hWnd, _T("ボタンが押されました。"), _T("OK"), MB_OK);
+                break;
+            case IDC_CHECKBOX:
+                EnableWindow(hwndButton, IsDlgButtonChecked(hWnd, IDC_CHECKBOX) == BST_CHECKED);
+                break;
             case IDM_ABOUT:
                 DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
                 break;
