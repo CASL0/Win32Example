@@ -4,7 +4,10 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <commctrl.h>
 #include "getOpenFile.h"
+
+#pragma comment (lib, "comctl32.lib")
 
 typedef std::basic_string<TCHAR> tstring;
 typedef std::basic_stringstream<TCHAR> tstringstream;
@@ -120,11 +123,46 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static HWND hEdit = nullptr;
     static HWND hwndButton = nullptr;
+    static HWND hwndListView = nullptr;
 
     switch (message)
     {
     case WM_CREATE:
     {
+        INITCOMMONCONTROLSEX ic;
+
+        ic.dwSize = sizeof(INITCOMMONCONTROLSEX);
+        ic.dwICC = ICC_LISTVIEW_CLASSES;  //リストビュー使用時に指定する
+        InitCommonControlsEx(&ic);
+
+        //                                                                            詳細表示のリストビュー(LVS_REPORT)
+        hwndListView = CreateWindowEx(0, WC_LISTVIEW, _T(""), WS_CHILD | WS_VISIBLE | LVS_REPORT, 0, 0, 0, 0, hWnd, (HMENU)1, ((LPCREATESTRUCT)lParam)->hInstance, nullptr);
+
+        LVCOLUMN column;
+        column.mask = LVCF_WIDTH | LVCF_TEXT;  //csメンバとpszTextメンバを有効化
+        column.cx = 100;  //列幅[pixels]
+        column.pszText = const_cast<WCHAR*>(L"col1");
+        //                    ハンドル      列のidx  列構造体
+        ListView_InsertColumn(hwndListView, 0,       &column);
+
+        column.mask = LVCF_WIDTH | LVCF_TEXT;
+        column.cx = 100;
+        column.pszText = const_cast<WCHAR*>(L"col2");
+        ListView_InsertColumn(hwndListView, 1, &column);
+
+        LVITEM item;
+        item.mask = LVIF_TEXT;  //pszTextメンバを有効化
+        item.iItem = 0;  //エントリーのindex(行のindex)
+        item.iSubItem = 0;  //アイテムのindex(列のindex)
+        item.pszText = const_cast<WCHAR*>(L"item1");
+        ListView_InsertItem(hwndListView, &item);
+
+        item.mask = LVIF_TEXT;
+        item.iItem = 0;
+        item.iSubItem = 1;
+        item.pszText = const_cast<WCHAR*>(L"subitem");
+        ListView_SetItem(hwndListView, &item);
+
         hEdit = CreateWindowEx(
             WS_EX_CLIENTEDGE,
             L"EDIT",
@@ -139,6 +177,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         CreateWindowEx(0, _T("BUTTON"), _T("ボタンを有効化する"), WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, 350, 10, 170, 40, hWnd, (HMENU)IDC_CHECKBOX, ((LPCREATESTRUCT)lParam)->hInstance, nullptr);
         CheckDlgButton(hWnd, IDC_CHECKBOX, BST_CHECKED);
 
+        break;
+    }
+    case WM_SIZE:
+    {
+        MoveWindow(hwndListView, 0, 300, LOWORD(lParam), HIWORD(lParam), TRUE);
         break;
     }
     case WM_DROPFILES:
