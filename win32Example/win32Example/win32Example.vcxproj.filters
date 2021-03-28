@@ -79,6 +79,12 @@
     <Filter Include="ソース ファイル\httprequest">
       <UniqueIdentifier>{382ce687-2125-48c5-b7d0-677f73f33836}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\adapterInfo">
+      <UniqueIdentifier>{2d808c43-55af-4a07-ad03-0f990de1a5c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\adapterInfo">
+      <UniqueIdentifier>{7d8faf3a-7fbf-4faa-867b-76fa111e01f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -123,6 +129,9 @@
     <ClCompile Include="enumServOwner.cpp">
       <Filter>ソース ファイル\securityDescriptor</Filter>
     </ClCompile>
+    <ClCompile Include="adapterInfo.cpp">
+      <Filter>ソース ファイル\adapterInfo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -160,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="enumServOwner.h">
       <Filter>ヘッダー ファイル\securityDescriptor</Filter>
+    </ClInclude>
+    <ClInclude Include="adapterInfo.h">
+      <Filter>ヘッダー ファイル\adapterInfo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

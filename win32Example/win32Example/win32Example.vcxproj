@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="adapterInfo.cpp" />
     <ClCompile Include="bluetoothapi.cpp" />
     <ClCompile Include="displayNetEvent.cpp" />
     <ClCompile Include="enumAce.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="wua.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="adapterInfo.h" />
     <ClInclude Include="bluetoothapi.h" />
     <ClInclude Include="displayNetEvent.h" />
     <ClInclude Include="enumServOwner.h" />

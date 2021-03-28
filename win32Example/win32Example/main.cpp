@@ -1,9 +1,9 @@
 #include <tchar.h>
 #include <iostream>
-#include "enumServOwner.h"
+#include "adapterInfo.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "japanese");
-	getOwner();
+	getAdapterInfo();
 	return 0;
 }
