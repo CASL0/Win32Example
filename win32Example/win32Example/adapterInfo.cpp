@@ -77,12 +77,12 @@ bool getAdapterInfo()
 			std::vector<CHAR> szAddr(256);
 			switch (addrLength)
 			{
-			case 16:
+			case sizeof(SOCKADDR_IN):
 			{
 				inet_ntop(AF_INET, &((SOCKADDR_IN*)pDnsServer->Address.lpSockaddr)->sin_addr, szAddr.data(), szAddr.size());
 				break;
 			}
-			case 28:
+			case sizeof(SOCKADDR_IN6):
 			{
 				inet_ntop(AF_INET6, &((SOCKADDR_IN6*)pDnsServer->Address.lpSockaddr)->sin6_addr, szAddr.data(), szAddr.size());
 				break;
