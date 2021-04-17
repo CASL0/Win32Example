@@ -1,9 +1,9 @@
 #include <tchar.h>
 #include <iostream>
-#include "adapterInfo.h"
+#include "enumUninstalledPrograms.h"
 int _tmain(int argc, _TCHAR* argv[])
 {
 	setlocale(LC_ALL, "japanese");
-	getAdapterInfo();
+	enumInstalledPrograms();
 	return 0;
 }

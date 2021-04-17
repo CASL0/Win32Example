@@ -85,6 +85,12 @@
     <Filter Include="ヘッダー ファイル\adapterInfo">
       <UniqueIdentifier>{7d8faf3a-7fbf-4faa-867b-76fa111e01f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\regUninstKey">
+      <UniqueIdentifier>{a26c94e6-1bf2-4333-8e8f-f429ab4de1f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\regUninstKye">
+      <UniqueIdentifier>{cfc56550-3ef6-430b-ab15-26f587ebd421}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -132,6 +138,9 @@
     <ClCompile Include="adapterInfo.cpp">
       <Filter>ソース ファイル\adapterInfo</Filter>
     </ClCompile>
+    <ClCompile Include="enumInstalledPrograms.cpp">
+      <Filter>ソース ファイル\regUninstKye</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -172,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="adapterInfo.h">
       <Filter>ヘッダー ファイル\adapterInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="enumUninstalledPrograms.h">
+      <Filter>ヘッダー ファイル\regUninstKey</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
