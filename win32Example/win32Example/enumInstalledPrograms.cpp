@@ -21,6 +21,8 @@ bool enumInstalledPrograms()
 	HKEY hAppKey = nullptr;
 	std::vector<TCHAR> szAppKeyName(1024);
 	std::vector<TCHAR> szDisplayName(1024);
+	std::vector<TCHAR> szInstallLocation(1024);
+
 	LSTATUS lEnumResult = ERROR_SUCCESS;
 	for (DWORD dwIndex = 0; lEnumResult == ERROR_SUCCESS; dwIndex++)
 	{
@@ -42,12 +44,18 @@ bool enumInstalledPrograms()
 
 		dwBufferSize = szDisplayName.size();
 		DWORD dwType = KEY_ALL_ACCESS;
-		lResult = RegQueryValueEx(hAppKey, _T("DisplayName"), nullptr, &dwType, (BYTE*)szDisplayName.data(), &dwBufferSize);
-		if (lResult == ERROR_SUCCESS)
+		lResult = RegQueryValueEx(hAppKey, _T("InstallLocation"), nullptr, &dwType, (BYTE*)szDisplayName.data(), &dwBufferSize);
+		if (lResult != ERROR_SUCCESS)
+		{
+			RegCloseKey(hAppKey);
+			continue;
+		}
+		if (std::wstring(szDisplayName.data()) != L"")
 		{
 			std::wcout << szDisplayName.data() << std::endl;
 		}
 		RegCloseKey(hAppKey);
+
 	}
 
 	RegCloseKey(hUninstKey);
