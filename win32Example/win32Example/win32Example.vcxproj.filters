@@ -91,6 +91,12 @@
     <Filter Include="ソース ファイル\regUninstKye">
       <UniqueIdentifier>{cfc56550-3ef6-430b-ab15-26f587ebd421}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\wfpProvider">
+      <UniqueIdentifier>{eb414c65-e611-4619-87be-14a9c03a4540}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\wfpProvider">
+      <UniqueIdentifier>{77e466f4-24be-4832-a244-caaa0daacbe8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -141,6 +147,9 @@
     <ClCompile Include="enumInstalledPrograms.cpp">
       <Filter>ソース ファイル\regUninstKye</Filter>
     </ClCompile>
+    <ClCompile Include="installProvider.cpp">
+      <Filter>ソース ファイル\wfpProvider</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -184,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="enumUninstalledPrograms.h">
       <Filter>ヘッダー ファイル\regUninstKey</Filter>
+    </ClInclude>
+    <ClInclude Include="installProvider.h">
+      <Filter>ヘッダー ファイル\wfpProvider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
