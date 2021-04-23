@@ -23,6 +23,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		{ 0xB2 ,0x81 ,0xAC ,0x42 ,0x9D ,0x47 ,0x69 ,0x95 }
 	};
 
-	InstallProvider(&PROVIDER_KEY, L"Win32Example", &SUBLAYER_KEY, L"ExampleSublayer");
+	Uninstall(&PROVIDER_KEY, &SUBLAYER_KEY);
 	return 0;
 }

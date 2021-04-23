@@ -73,3 +73,55 @@ CLEANUP:
     FwpmEngineClose0(engine);
     return dwRet;
 }
+
+DWORD Uninstall(__in const GUID* providerKey, __in const GUID* subLayerKey)
+{
+    const std::wstring SESSION_NAME = L"Win32Example";
+    FWPM_SESSION0 session;
+    ZeroMemory(&session, sizeof(session));
+    session.displayData.name = const_cast<WCHAR*>(SESSION_NAME.c_str());
+    session.txnWaitTimeoutInMSec = INFINITE;
+
+    HANDLE engine = nullptr;
+    DWORD dwRet = FwpmEngineOpen0(nullptr, RPC_C_AUTHN_DEFAULT, nullptr, &session, &engine);
+    if (dwRet != ERROR_SUCCESS)
+    {
+        std::cout << "FwpmEngineOpen0 failed with error: " << dwRet << std::endl;
+        goto CLEANUP;
+    }
+
+    //ロールバックできるようにする
+    //commitしてない場合、enginecloseした場合破棄される
+    dwRet = FwpmTransactionBegin0(engine, 0);
+    if (dwRet != ERROR_SUCCESS)
+    {
+        std::cout << "FwpmTransactionBegin0 failed with error: " << dwRet << std::endl;
+        goto CLEANUP;
+    }
+    
+    dwRet = FwpmSubLayerDeleteByKey0(engine, subLayerKey);
+    if (dwRet != FWP_E_SUBLAYER_NOT_FOUND && dwRet != ERROR_SUCCESS)
+    {
+        std::cout << "FwpmSubLayerDeleteByKey0 failed with error: " << dwRet << std::endl;
+        goto CLEANUP;
+    }
+
+    dwRet = FwpmProviderDeleteByKey0(engine, providerKey);
+    if (dwRet != FWP_E_PROVIDER_NOT_FOUND && dwRet != ERROR_SUCCESS)
+    {
+        std::cout << "FwpmProviderDeleteByKey0 failed with error: " << dwRet << std::endl;
+        goto CLEANUP;
+    }
+
+    dwRet = FwpmTransactionCommit0(engine);
+    if (dwRet != ERROR_SUCCESS)
+    {
+        std::cout << "FwpmTransactionCommit0 failed with error: " << dwRet << std::endl;
+        goto CLEANUP;
+    }
+
+
+CLEANUP:
+    FwpmEngineClose0(engine);
+    return dwRet;
+}
