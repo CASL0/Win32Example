@@ -97,6 +97,12 @@
     <Filter Include="ヘッダー ファイル\wfpProvider">
       <UniqueIdentifier>{77e466f4-24be-4832-a244-caaa0daacbe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\createWebShortcut">
+      <UniqueIdentifier>{46533cf1-9fba-49ce-9454-8db2cfc89526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\createWebShortcut">
+      <UniqueIdentifier>{7c15b5ea-dafd-49f4-b1b6-38ba1c640e59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wua.cpp">
@@ -150,6 +156,9 @@
     <ClCompile Include="installProvider.cpp">
       <Filter>ソース ファイル\wfpProvider</Filter>
     </ClCompile>
+    <ClCompile Include="createWebShortcut.cpp">
+      <Filter>ソース ファイル\createWebShortcut</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="wua.h">
@@ -197,5 +206,10 @@
     <ClInclude Include="installProvider.h">
       <Filter>ヘッダー ファイル\wfpProvider</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="createWebShortcut.h">
+      <Filter>ヘッダー ファイル\createWebShortcut</Filter>
+    </None>
   </ItemGroup>
 </Project>

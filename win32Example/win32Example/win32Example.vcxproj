@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="adapterInfo.cpp" />
     <ClCompile Include="bluetoothapi.cpp" />
+    <ClCompile Include="createWebShortcut.cpp" />
     <ClCompile Include="displayNetEvent.cpp" />
     <ClCompile Include="enumAce.cpp" />
     <ClCompile Include="enumInstalledPrograms.cpp" />
@@ -174,6 +175,9 @@
     <ClInclude Include="wlanapi.h" />
     <ClInclude Include="wsc.h" />
     <ClInclude Include="wua.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="createWebShortcut.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
